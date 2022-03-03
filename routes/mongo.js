@@ -1,18 +1,27 @@
 const express = require("express");
 const router = express.Router();
+const dbo = require("../db/mongo_conn");
 
-const MongoClient = require("mongodb").MongoClient;
+dbo.connectToServer(function (err) {
+  if (err) {
+    console.error(err);
+    process.exit();
+  }
+});
 
 router.get("/", (req, res) => {
-  MongoClient.connect("mongodb://127.0.0.1/dbAppDB", (err, db) => {
-    if (err) throw err;
-    const adminDb = db.db("admin").admin();
+  const dbConnect = dbo.getDb();
 
-    adminDb
-      .listDatabases()
-      .then(({ databases }) => res.send(databases))
-      .catch((err) => console.log(err));
-  });
+  dbConnect
+    .collection("SalesOrders")
+    .find({})
+    .toArray(function (err, result) {
+      if (err) {
+        res.status(400).send("Error fetching listings!");
+      } else {
+        res.render("pages/mongo", { result });
+      }
+    });
 });
 
 module.exports = router;

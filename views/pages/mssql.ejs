@@ -1,0 +1,30 @@
+<table class="table">
+    <% result.forEach(function(res) { %>
+        <tr>
+            <td>
+                <%= res.Id %>
+            </td>
+            <td>
+                <%= res.OrderDate %>
+            </td>
+            <td>
+                <%= res.Region %>
+            </td>
+            <td>
+                <%= res.Rep %>
+            </td>
+            <td>
+                <%= res.Item %>
+            </td>
+            <td>
+                <%= res.Units %>
+            </td>
+            <td>
+                <%= res.UnitCost %>
+            </td>
+            <td>
+                <%= res.Total %>
+            </td>
+        </tr>
+        <% }); %>
+</table>
